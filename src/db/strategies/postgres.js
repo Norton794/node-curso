@@ -4,6 +4,10 @@ class Postgres extends ICrud{
         super()
     }
 
+    isConnected(){
+        
+    }
+
     create(item){
         console.log("Postgres")
     }

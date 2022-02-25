@@ -7,7 +7,7 @@ const driver = new Sequelize(
         host: 'localhost',
         dialect: 'postgres',
         quoteIdentifiers: false,
-        operatorsAliases: false
+        operatorsAliases: 0
     }
 )
 
@@ -34,8 +34,11 @@ async function main(){
     })
 
     await Herois.sync()
-
-    const result = await Herois.findAll({raw: true})
+    await Herois.create({
+        nome: 'Lanterna Verde',
+        poder: 'Anel Magico'
+    })
+    const result = await Herois.findAll({raw: true, attributes: ['nome']})
     console.log('result', result)
 }
 

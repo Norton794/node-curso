@@ -11,19 +11,26 @@ const MOCK_HERoi_CADASTRAR = {
 }
 
 
-describe('Postgres Strategy', function(){
+describe('Postgres Strategy', function () {
     this.timeout(Infinity)
-    this.beforeAll(async function(){
+    this.beforeAll(async function () {
         await context.connect()
     })
-    it('PostgresSQL Connection', async ()=>{
+    it('PostgresSQL Connection', async () => {
         const result = await context.isConnected()
-        delete result.id
+
         assert.equal(result, true)
     })
 
-    it('Cadastrar', async ()=>{
+    it('Cadastrar', async () => {
         const result = await context.create(MOCK_HERoi_CADASTRAR)
+        delete result.id
+        assert.deepEqual(result, MOCK_HERoi_CADASTRAR)
+    })
+
+    it('listar', async () => {
+        const [result] = await context.read({ nome: MOCK_HERoi_CADASTRAR.nome })
+        delete result.id
         assert.deepEqual(result, MOCK_HERoi_CADASTRAR)
     })
 })

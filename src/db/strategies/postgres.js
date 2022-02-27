@@ -8,11 +8,11 @@ class Postgres extends ICrud {
         super()
         this._driver = null
         this._herois = null
-        this._connect()
+        //this._connect()
     }
 
     async defineModel() {
-        this._herois = driver.define('herois', {
+        this._herois = this._driver.define('herois', {
             id: {
                 type: Sequelize.INTEGER,
                 required: true,
@@ -33,7 +33,7 @@ class Postgres extends ICrud {
             timestamps: false
         })
 
-        await Herois.sync()
+        await this._herois.sync()
     }
 
     async isConnected() {
@@ -46,7 +46,7 @@ class Postgres extends ICrud {
         }
     }
 
-    _connect() {
+    async connect() {
         this._driver = new Sequelize(
             'heroes',
             'norton',
@@ -58,10 +58,13 @@ class Postgres extends ICrud {
                 operatorsAliases: 0
             }
         )
+
+        await this.defineModel()
     }
 
-    create(item) {
-        console.log("Postgres")
+    async create(item) {
+        const {dataValues} = await this._herois.create(item)
+        return dataValues
     }
 }
 

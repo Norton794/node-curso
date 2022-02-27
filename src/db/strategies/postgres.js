@@ -71,6 +71,10 @@ class Postgres extends ICrud {
         const result = this._herois.findAll({where: item, raw: true})
         return result
     }
+
+    async update(id, item){
+        return this._herois.update(item, {where: {id}})
+    }
 }
 
 module.exports = Postgres
